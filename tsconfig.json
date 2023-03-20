@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "lib": ["es2020"],
+    "target": "es2020",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "allowJs": true,
+    "sourceMap": false,
+    "declaration": true,
+    "resolveJsonModule": true,
+    "isolatedModules": false,
+    "types": ["vitest/globals"],
+    "noEmit": true
+  },
+  "include": ["packages", "scripts", "test.ts"],
+  "exclude": ["**/node_modules", "**/*/lib", "**/*/dist", "**/build"]
+}
