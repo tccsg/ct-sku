@@ -6,7 +6,7 @@ import {
   CtSku,
   type SpecItem,
   type SkuItem,
-  PriceRange,
+  type PriceRange,
 } from "@codetop-sku/core";
 
 let tempSKus: any = [];
