@@ -67,7 +67,7 @@ const App = () => {
                 <div className="item-title">{mockItemData.title}</div>
                 <div>
                   <div className="price-wrap">
-                    <span>¥{priceRange?.min}</span>
+                    <span>¥{currentSku?.price ?? priceRange?.min}</span>
                     {/* {!canFlag && maxPrice > prodPrice ? <span>~ {maxPrice}</span> : null} */}
                   </div>
                   <div className="sku-hold">
