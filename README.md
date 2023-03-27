@@ -76,8 +76,8 @@ mySku.config({ fieldNames: { hold: 'kc' } })
 // 获取解析后的规格
 mySku.getSpecs()
 
-// 获取额外解析的数据，包括价格区间，总库存
-mySku.extraData()
+// 额外解析的数据，包括价格区间，总库存
+mySku.extraData
 
 // 规格值点击的事件,返回解析后的规格和匹配到的sku没有匹配到返回null
 mySku.specItemHandler('颜色', {
