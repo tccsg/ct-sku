@@ -7,10 +7,13 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "cleanup": "rimraf **/node_modules"
+    "cleanup": "rimraf **/node_modules",
+    "dev:react": "pnpm -r --parallel  --stream -F'./packages/examples/sku-react' dev",
+    "readme": "dg-mp"
   },
   "devDependencies": {
     "@types/rimraf": "^3.0.2",
+    "dg-mp": "^1.0.3",
     "rimraf": "^3.0.2"
   },
   "dependencies": {

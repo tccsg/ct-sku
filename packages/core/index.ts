@@ -22,6 +22,9 @@ export class CtSku {
     };
   }
 
+  public config(config: Config) {
+    this.fieldNames = config.fieldNames;
+  }
   public init(data: SkuItem[]) {
     this.data = data;
     this.specs = {};
