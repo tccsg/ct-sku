@@ -158,5 +158,6 @@ export default class SkuCreator {
       });
     });
     this.properties = JSON.parse(JSON.stringify(this.defaultProperties));
+    this.createSkuList();
   }
 }
