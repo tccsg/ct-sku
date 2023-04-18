@@ -11,7 +11,7 @@ export type Columns<T> = {
   title: string;
   dataIndex: keyof T;
 };
-export type FloatProp = { name: string; value: PropertyValue };
+export type FlatProp = { name: string; value: PropertyValue };
 export type Row = Partial<SkuItem> & { key: string | number };
 
 const depCloneObject = <T>(obj: any): T => JSON.parse(JSON.stringify(obj));
@@ -31,24 +31,24 @@ export default class SkuCreator {
   private createSkuList() {
     const cols: Columns<SkuItem>[] = [];
     const rows: Row[] = [];
-    const floatProps: FloatProp[][] = [];
+    const flatProps: FlatProp[][] = [];
     this.properties.forEach((prop) => {
       if (prop.name && prop.values.length) {
-        const cartesianItem: FloatProp[] = [];
+        const cartesianItem: FlatProp[] = [];
         prop.values.forEach((value) => {
           cartesianItem.push({
             name: prop.name,
             value,
           });
         });
-        floatProps.push(cartesianItem);
+        flatProps.push(cartesianItem);
         cols.push({
           title: prop.name,
           dataIndex: prop.name,
         });
       }
     });
-    const cartesianProperties = cartesian(...floatProps);
+    const cartesianProperties = cartesian(...flatProps);
     cartesianProperties.forEach((e: any, index: number) => {
       rows.push({
         key: index,
