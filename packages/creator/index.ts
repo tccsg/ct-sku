@@ -108,8 +108,7 @@ export default class SkuCreator {
   public skuHandlers: {
     onChangePrice: (sku: SkuItem, price: number) => void;
     onChangeHold: (sku: SkuItem, hold: number) => void;
-    /** 其他自定义函数 */
-    [otherHandler: string]: (sku: SkuItem, value: any) => void;
+    customHandler?: (sku: SkuItem, key: string, value: any) => void;
   } = {
     onChangePrice: (sku, price) => {
       const hitSku = this.rows.find((row) => row.skuId === sku.skuId);
@@ -122,6 +121,13 @@ export default class SkuCreator {
       const hitSku = this.rows.find((row) => row.skuId === sku.skuId);
       if (hitSku) {
         hitSku.hold = hold;
+      }
+      return this.rows;
+    },
+    customHandler: (sku, key, value) => {
+      const hitSku = this.rows.find((row) => row.skuId === sku.skuId);
+      if (hitSku) {
+        hitSku[key] = value;
       }
       return this.rows;
     },
