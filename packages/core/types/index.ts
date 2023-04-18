@@ -1,16 +1,17 @@
+export type PropertyValue = {
+  /** 唯一的值 unique */
+  text: string;
+  /** 可用于提示之类的 */
+  other?: any;
+  image?: string;
+};
 export type SkuItem = {
   hold: number;
   price: number;
   skuId: string;
   properties: {
     name: string;
-    value: {
-      /** 唯一的值 unique */
-      text: string;
-      /** 可用于提示之类的 */
-      other?: any;
-      image?: string;
-    };
+    value: PropertyValue;
   }[];
   [other: string]: any;
 };
