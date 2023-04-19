@@ -18,7 +18,12 @@ const depCloneObject = <T>(obj: any): T => JSON.parse(JSON.stringify(obj));
 
 export default class SkuCreator {
   private defaultProperties: PropertyValues[] = [];
-  private properties: PropertyValues[] = [];
+  private properties: PropertyValues[] = new Proxy([], {
+    set: (target: PropertyValues[], p: any, newValue) => {
+      target[p] = newValue;
+      return true;
+    },
+  });
   private rows: Row[] = [];
   private cols: Columns<SkuItem>[] = [];
 
@@ -28,11 +33,19 @@ export default class SkuCreator {
     }
   }
 
-  private createSkuList() {
+  public getRenderData() {
+    return {
+      cols: this.cols,
+      rows: this.rows,
+      properties: this.properties,
+    };
+  }
+
+  private createSkuList = () => {
     const cols: Columns<SkuItem>[] = [];
     const rows: Row[] = [];
     const flatProps: FlatProp[][] = [];
-    this.properties.forEach((prop) => {
+    this.properties?.forEach((prop) => {
       if (prop.name && prop.values.length) {
         const cartesianItem: FlatProp[] = [];
         prop.values.forEach((value) => {
@@ -49,7 +62,7 @@ export default class SkuCreator {
       }
     });
     const cartesianProperties = cartesian(...flatProps);
-    cartesianProperties.forEach((e: any, index: number) => {
+    cartesianProperties?.forEach((e: any, index: number) => {
       rows.push({
         key: index,
         skuId: uuid(),
@@ -63,7 +76,7 @@ export default class SkuCreator {
       rows: this.rows,
       cols: this.cols,
     };
-  }
+  };
 
   /** 属性相关的函数 */
   public propertyHandlers = {
@@ -79,36 +92,33 @@ export default class SkuCreator {
       };
     },
     remove: (index: number) => {
-      const ret = depCloneObject<PropertyValues[]>(this.properties);
-      ret.splice(index, 1);
+      this.properties.splice(index, 1);
       return {
         ...this.createSkuList(),
-        props: ret,
+        props: depCloneObject<PropertyValues[]>(this.properties),
       };
     },
     onChangeName: (index: number, name: string) => {
-      const ret = [...this.properties];
-      ret[index].name = name;
+      this.properties[index].name = name;
       return {
         ...this.createSkuList(),
-        props: depCloneObject<PropertyValues[]>(ret),
+        props: depCloneObject<PropertyValues[]>(this.properties),
       };
     },
     onChangeValues: (index: number, values: PropertyValue[]) => {
-      const ret = [...this.properties];
-      ret[index].values = values;
+      this.properties[index].values = values;
       return {
         ...this.createSkuList(),
-        props: depCloneObject<PropertyValues[]>(ret),
+        props: depCloneObject<PropertyValues[]>(this.properties),
       };
     },
   };
 
   /** sku相关操作 */
   public skuHandlers: {
-    onChangePrice: (sku: SkuItem, price: number) => void;
-    onChangeHold: (sku: SkuItem, hold: number) => void;
-    customHandler?: (sku: SkuItem, key: string, value: any) => void;
+    onChangePrice: (sku: SkuItem, price: number) => Row[];
+    onChangeHold: (sku: SkuItem, hold: number) => Row[];
+    customHandler?: (sku: SkuItem, key: string, value: any) => Row[];
   } = {
     onChangePrice: (sku, price) => {
       const hitSku = this.rows.find((row) => row.skuId === sku.skuId);
