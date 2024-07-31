@@ -1,5 +1,8 @@
 # 临时说明文档
 
+### 案例
+<img src="https://mall.pushare.cn/qrcode.jpg" width="120px" />
+
 ### 目录结构
 
 `core`：sku 选择器的核心代码
